@@ -20,6 +20,14 @@ globals {
   ]
 
   shared_vpc_host = true
+
+  subnets = [
+    {
+      subnet_name   = "subnet-1"
+      subnet_region = "europe-west1"
+      subnet_ip     = "10.0.0.0/24"
+    }
+  ]
 }
 
 ##############################################################################
@@ -75,7 +83,9 @@ generate_hcl "_terramate_generated_project_factory.tf" {
         tm_try(global.additional_apis, [])
       )
 
-      default_service_account = "keep"
+      default_service_account = "disable"
+
+      enable_shared_vpc_host_project = global.enable_shared_vpc_host_project
     }
   }
 }
@@ -97,6 +107,26 @@ generate_hcl "_terramate_generated_shared_vpc.tf" {
       routing_mode = "REGIONAL"
 
       shared_vpc_host = global.shared_vpc_host
+    }
+  }
+}
+
+generate_hcl "_terramate_generated_subnets.tf" {
+  stack_filter {
+    project_paths = [
+      "/stacks/organizations/digistore24.team/project-factory/*/shared-vpc/subnets"
+    ]
+  }
+
+  content {
+    module "subnets" {
+      source  = "terraform-google-modules/network/google//modules/subnets"
+      version = "~> 11.1.1"
+
+      network_name = var.network_name
+      project_id   = var.project_id
+
+      subnets = global.subnets
     }
   }
 }
