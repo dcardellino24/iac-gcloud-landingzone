@@ -8,3 +8,7 @@ output "project_id" {
   backend = "terraform"
   value   = module.project.project_id
 }
+
+globals {
+  enable_shared_vpc_host_project = true
+}

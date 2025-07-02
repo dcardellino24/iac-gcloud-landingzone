@@ -111,22 +111,22 @@ generate_hcl "_terramate_generated_shared_vpc.tf" {
   }
 }
 
-generate_hcl "_terramate_generated_subnets.tf" {
-  stack_filter {
-    project_paths = [
-      "/stacks/organizations/digistore24.team/project-factory/*/shared-vpc/subnets"
-    ]
-  }
+# generate_hcl "_terramate_generated_subnets.tf" {
+#   stack_filter {
+#     project_paths = [
+#       "/stacks/organizations/digistore24.team/project-factory/*/shared-vpc/subnets"
+#     ]
+#   }
 
-  content {
-    module "subnets" {
-      source  = "terraform-google-modules/network/google//modules/subnets"
-      version = "~> 11.1.1"
+#   content {
+#     module "subnets" {
+#       source  = "terraform-google-modules/network/google//modules/subnets"
+#       version = "~> 11.1.1"
 
-      network_name = var.network_name
-      project_id   = var.project_id
+#       network_name = var.network_name
+#       project_id   = var.project_id
 
-      subnets = global.subnets
-    }
-  }
-}
+#       subnets = global.subnets
+#     }
+#   }
+# }
