@@ -47,8 +47,7 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: projects/212419429969/locations/global/workloadIdentityPools/github-actions/providers/github-actions
-          service_account: dev-gh-infra@sandbox-dc4-37b5.iam.gserviceaccount.com
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
       - name: Initialize Terraform in changed stacks
         if: steps.list.outputs.stdout
