@@ -3,6 +3,6 @@
 terraform {
   backend "gcs" {
     bucket = "ds-dc4-terraform-state"
-    prefix = "iac/stacks/by-id/f4e600e3-046b-42c7-bf00-639a745f56af"
+    prefix = "iac/stacks/by-id/d7681512-067e-456b-8e39-c31771d1b649"
   }
 }

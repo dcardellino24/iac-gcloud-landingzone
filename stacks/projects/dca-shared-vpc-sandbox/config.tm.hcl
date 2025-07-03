@@ -1,8 +1,8 @@
 globals {
   environment = "sandbox"
-  tenant = "money"
+  tenant      = "money"
 
-  google_region = "europe-west1"
+  google_region       = "europe-west1"
   google_region_short = "euw1"
 
 

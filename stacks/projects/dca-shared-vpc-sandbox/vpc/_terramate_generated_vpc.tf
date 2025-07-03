@@ -1,6 +1,6 @@
 // TERRAMATE: GENERATED AUTOMATICALLY DO NOT EDIT
 
-module "shared_vpc" {
+module "vpc" {
   network_name    = "test"
   project_id      = var.project_id
   routing_mode    = "REGIONAL"
