@@ -2,9 +2,8 @@ terramate {
   config {
     disable_safeguards = ["all"]
 
-    experiments = [
-      "outputs-sharing"
-    ]
+    experiments = ["scripts", "outputs-sharing"]
+  }
 
     cloud {
       organization = "digistore24"
