@@ -11,6 +11,7 @@ module "project" {
   billing_account                = "01996F-DD7550-91BCAF"
   default_service_account        = "disable"
   enable_shared_vpc_host_project = true
+  folder_id                      = "976382258499"
   name                           = "dca-shared-vpc-sandbox"
   org_id                         = "400110290080"
   random_project_id              = true

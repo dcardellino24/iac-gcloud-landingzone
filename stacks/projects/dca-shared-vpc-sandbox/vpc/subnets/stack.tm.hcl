@@ -1,23 +1,11 @@
 stack {
-  name        = "dca-shared-vpc-sandbox"
-  description = "dca-shared-vpc-sandbox"
-  id          = "f5ad8ef2-510b-4b08-abcc-3f9eb1b849da"
+  name        = "subnets"
+  description = "subnets"
+  id          = "f4e600e3-046b-42c7-bf00-639a745f56af"
 }
 
-globals {
-  environment  = "sandbox"
-  region       = "europe-west1"
-  region_short = "euw1"
-  vpc = {
-    subnets = [
-      {
-        subnet_name   = "subnet1"
-        subnet_region = "us-central1"
-        subnet_ip     = "10.0.0.0/24"
-      },
-    ]
-  }
-}
+
+
 
 input "project_id" {
   backend       = "terraform"

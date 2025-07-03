@@ -9,6 +9,12 @@ globals {
 }
 
 generate_hcl "_terramate_generated_subnet.tf" {
+  stack_filter {
+    project_paths = [
+      "/stacks/projects/*/vpc/subnets"
+    ]
+  }
+
   content {
     module "subnet" {
       source  = "terraform-google-modules/network/google//modules/subnets"
@@ -23,14 +29,41 @@ generate_hcl "_terramate_generated_subnet.tf" {
 }
 
 generate_hcl "_terramate_generated_cloud_nat.tf" {
+  stack_filter {
+    project_paths = [
+      "/stacks/projects/*/nat"
+    ]
+  }
+
   content {
     module "cloud_nat" {
       source  = "terraform-google-modules/cloud-nat/google"
       version = "5.3.0"
 
-      name   = "ds24-${global.region_short}-${global.environment}"
-      router = "ds24-${global.region_short}-${global.environment}"
-      region = global.region
+      name   = "ds24-${global.google_region_short}-${global.environment}"
+      router = "ds24-${global.google_region_short}-${global.environment}"
+      region = global.google_region
+
+      project_id = var.project_id
+    }
+  }
+}
+
+generate_hcl "_terramate_generated_memorystore.tf" {
+  stack_filter {
+    project_paths = [
+      "/stacks/projects/*/memorystore"
+    ]
+  }
+
+  content {
+    module "memorystore" {
+      source  = "terraform-google-modules/memorystore/google"
+      version = "15.0.0"
+
+      name           = "ds24-${global.tenant}-${global.google_region_short}-${global.environment}"
+      region         = global.google_region
+      memory_size_gb = "1"
 
       project_id = var.project_id
     }

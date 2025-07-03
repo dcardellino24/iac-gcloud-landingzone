@@ -12,17 +12,14 @@
 generate_hcl "_terramate_generated_providers.tf" {
   stack_filter {
     project_paths = [
-      "/stacks/projects/*"
+      "/stacks/projects/**"
     ]
   }
 
   content {
-
-    # the default values of globals are defined in config.tm.hcl in this directory
-
     provider "google" {
-      project = global.terraform_google_provider_project
-      region  = global.terraform_google_provider_region
+      project = global.google_project
+      region  = tm_try(global.google_region, global.terraform_google_provider_region)
     }
 
     terraform {

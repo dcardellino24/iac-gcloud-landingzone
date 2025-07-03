@@ -17,8 +17,9 @@ generate_hcl "_terramate_generated_backend.tf" {
       # the path is defined in the global config and
       # defaults to terraforms default
       # the default values of globals are defined in config.tm.hcl in this directory
-      backend "local" {
-        path = global.local_tfstate_path
+      backend "gcs" {
+        bucket = "ds-dc4-terraform-state"
+        prefix = "iac/stacks/by-id/${terramate.stack.id}"
       }
     }
   }

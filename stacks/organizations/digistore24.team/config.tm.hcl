@@ -78,6 +78,8 @@ generate_hcl "_terramate_generated_project_factory.tf" {
       org_id            = global.organization_id
       billing_account   = global.billing_account
 
+      folder_id = tm_try(global.folder_id, "")
+
       activate_apis = concat(
         global.common_apis,
         tm_try(global.additional_apis, [])
