@@ -7,7 +7,7 @@ terramate {
     ]
 
     cloud {
-      organization = "digistore"
+      organization = "digistore24"
     }
   }
 }
