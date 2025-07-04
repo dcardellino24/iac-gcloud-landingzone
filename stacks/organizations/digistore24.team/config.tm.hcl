@@ -58,23 +58,21 @@ generate_hcl "_terramate_generated_providers.tf" {
   }
 }
 
-##############################################################################
-# Project Factory Template
-# Generates project creation code for any stack in project-factory
-generate_hcl "_terramate_generated_project_factory.tf" {
-  stack_filter {
-    project_paths = [
-      "/stacks/organizations/digistore24.team/project-factory/*"
-    ]
-  }
+generate_hcl "_terramate_generated_main.tf.tf" {
+  condition = tm_can(tm_regex("/project-factory/[^/]+$", terramate.stack.path.absolute))
+  # stack_filter {
+  #   project_paths = [
+  #     "/stacks/organizations/digistore24.team/project-factory/*"
+  #   ]
+  # }
 
   content {
     module "project" {
       source  = "terraform-google-modules/project-factory/google"
       version = "~> 17.0"
 
-      name              = tm_basename(terramate.stack.path.absolute)
-      random_project_id = true
+      name              = terramate.stack.path.basename
+      random_project_id = tm_try(global.random_project_id, true)
       org_id            = global.organization_id
       billing_account   = global.billing_account
 
@@ -87,48 +85,45 @@ generate_hcl "_terramate_generated_project_factory.tf" {
 
       default_service_account = "disable"
 
-      enable_shared_vpc_host_project = global.enable_shared_vpc_host_project
+      enable_shared_vpc_host_project = tm_try(global.enable_shared_vpc_host_project, false)
     }
   }
 }
 
-# generate_hcl "_terramate_generated_shared_vpc.tf" {
-#   stack_filter {
-#     project_paths = [
-#       "/stacks/organizations/digistore24.team/project-factory/*/shared-vpc"
-#     ]
-#   }
+generate_hcl "_terramate_generated_main.tf" {
+  stack_filter {
+    project_paths = [
+      "/stacks/organizations/digistore24.team/project-factory/*/shared-vpc"
+    ]
+  }
 
-#   content {
-#     module "shared_vpc" {
-#       source  = "terraform-google-modules/network/google//modules/vpc"
-#       version = "~> 11.1.1"
+  content {
+    module "vpc" {
+      source  = "terraform-google-modules/network/google//modules/vpc"
+      version = "~> 11.1.1"
 
-#       project_id   = var.project_id
-#       network_name = "test"
-#       routing_mode = "REGIONAL"
+      project_id   = var.project_id
+      network_name = "test"
+      routing_mode = "REGIONAL"
 
-#       shared_vpc_host = global.shared_vpc_host
-#     }
-#   }
-# }
+      shared_vpc_host = global.shared_vpc_host
+    }
+  }
+}
 
-# generate_hcl "_terramate_generated_subnets.tf" {
-#   stack_filter {
-#     project_paths = [
-#       "/stacks/organizations/digistore24.team/project-factory/*/shared-vpc/subnets"
-#     ]
-#   }
+generate_hcl "main.tf" {
+  condition = tm_can(tm_regex("/folders/[^/]+$", terramate.stack.path.absolute))
 
-#   content {
-#     module "subnets" {
-#       source  = "terraform-google-modules/network/google//modules/subnets"
-#       version = "~> 11.1.1"
+  content {
+    data "google_organization" "organization" {
+      domain = "digistore24.team"
+    }
 
-#       network_name = var.network_name
-#       project_id   = var.project_id
+    module "folder" {
+      source = "github.com/mineiros-io/terraform-google-folder.git?ref=v0.2.0"
 
-#       subnets = global.subnets
-#     }
-#   }
-# }
+      display_name = "${terramate.stack.name}"
+      parent       = data.google_organization.organization.name
+    }
+  }
+}
