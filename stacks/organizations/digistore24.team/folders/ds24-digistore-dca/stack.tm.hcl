@@ -6,5 +6,5 @@ stack {
 
 output "folder_id" {
   backend = "terraform"
-  value   = module.folder.folder_id
+  value   = module.folder.google_folder
 }
