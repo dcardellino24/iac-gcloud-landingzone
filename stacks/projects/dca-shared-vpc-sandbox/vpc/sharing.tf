@@ -3,6 +3,6 @@
 variable "project_id" {
   type = any
 }
-variable "network_name" {
-  type = any
+output "network_name" {
+  value = module.vpc.network_name
 }

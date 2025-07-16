@@ -1,7 +1,7 @@
 // TERRAMATE: GENERATED AUTOMATICALLY DO NOT EDIT
 
 provider "google" {
-  project = "sandbox-dc4-37b5"
+  project = var.project_id
   region  = "europe-west1"
 }
 terraform {

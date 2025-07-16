@@ -1,22 +1,19 @@
 stack {
   name        = "subnets"
   description = "subnets"
-  id          = "f4e600e3-046b-42c7-bf00-639a745f56af"
+  id          = "d7681512-067e-456b-8e39-c31771d1b649"
 }
-
-
-
 
 input "project_id" {
   backend       = "terraform"
-  value         = output.project_id.value
+  value         = outputs.project_id.value
   from_stack_id = "c39b6faf-b5cf-42ef-8f10-319079794f19"
-  mock          = "mock-project-id"
+  mock          = "mock-project_id"
 }
 
 input "network_name" {
   backend       = "terraform"
-  value         = output.network_name.value
-  from_stack_id = "aed39425-1598-4c03-a8a6-dfab54b12023"
+  value         = outputs.network_name.value
+  from_stack_id = "9c2333f6-4052-49ca-ac55-fee6b53c54b2"
   mock          = "mock-network-name"
 }

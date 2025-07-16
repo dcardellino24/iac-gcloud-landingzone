@@ -18,7 +18,7 @@ generate_hcl "_terramate_generated_providers.tf" {
 
   content {
     provider "google" {
-      project = global.google_project
+      project = var.project_id
       region  = tm_try(global.google_region, global.terraform_google_provider_region)
     }
 
